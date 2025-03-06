@@ -1,7 +1,3 @@
 library dart_tool_kit;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/string.extension.dart';
