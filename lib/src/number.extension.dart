@@ -92,7 +92,10 @@ extension IntegerExtensions on int {
   // Bitwise Operations
   bool get isPowerOfTwo => (this & (this - 1)) == 0 && this != 0;
 
-  int get bitLength => bitLength;
+  int get bitLength {
+    if (this == 0) return 0;
+    return (abs().toRadixString(2).length);
+  }
 
   // Statistics & Probability
   double percentOf(int total) => (this / total) * 100;
