@@ -1,13 +1,13 @@
 name: dart_tool_kit
-description: "A new Flutter package project."
-version: 0.0.1
+description: "A comprehensive collection of extension methods for Flutter and Dart to boost your productivity with everyday tasks."
+version: 0.1.0
 homepage: https://github.com/syedmehtabali/dart_tool_kit
 repository: https://github.com/syedmehtabali/dart_tool_kit
 issue_tracker: https://github.com/syedmehtabali/dart_tool_kit/issues
 
 environment:
-  sdk: ^3.5.4
-  flutter: ">=1.17.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
@@ -19,4 +19,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-

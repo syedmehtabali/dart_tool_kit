@@ -1,39 +1,180 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Dart Tool Kit
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A comprehensive collection of extension methods for Flutter and Dart to boost your productivity with everyday tasks.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+[![Pub Version](https://img.shields.io/pub/v/dart_tool_kit.svg)](https://pub.dev/packages/dart_tool_kit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Overview
+
+Dart Tool Kit provides useful extension methods for common Dart types like String, DateTime, int, and bool. These extensions eliminate boilerplate code and enhance readability, making your Flutter code more concise and expressive.
+
+## Installation
+
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  dart_tool_kit: ^0.1.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+### String Extensions
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Enhance string manipulation with useful methods:
 
 ```dart
-const like = 'sample';
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Case conversions
+'helloWorld'.camelToWords();      // 'Hello World'
+'hello world'.toTitleCase();      // 'Hello World'
+'hello world'.toCamelCase();      // 'helloWorld'
+'hello world'.toPascalCase();     // 'HelloWorld'
+'hello world'.toSnakeCase();      // 'hello_world'
+'hello world'.toKebabCase();      // 'hello-world'
+
+// Validation
+'example@email.com'.isValidEmail();  // true
+'https://example.com'.isValidUrl();  // true
+'12345'.isNumeric();                 // true
+
+// Manipulation
+'Hello World'.mask(start: 2, end: 2);  // 'He*** ***ld'
+'Hello'.ellipsize(3);                  // 'Hel...'
+'John Doe'.getInitials();              // 'JD'
 ```
 
-## Additional information
+### DateTime Extensions
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Work with dates more efficiently:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+final now = DateTime.now();
+
+// Formatting
+now.toIsoDate;         // '2025-04-16'
+now.toSlashFormat;     // '16/04/2025'
+now.toReadableFormat;  // 'Wednesday, 16 Apr 2025'
+
+// Date Calculations
+now.startOfDay;        // beginning of today
+now.endOfMonth;        // last moment of the current month
+now.addDays(5);        // date 5 days from now
+now.subtractMonths(1); // date 1 month ago
+
+// Date Comparisons
+now.isToday;       // true
+now.isWeekend;     // false
+now.isLeapYear;    // false
+now.isSameDate(DateTime(2025, 4, 16)); // true
+
+// Human Readable
+now.timeAgo();     // e.g., '2 hours ago'
+now.age;           // age in years from now
+```
+
+### Integer Extensions
+
+Enhance numeric operations:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Formatting
+123.toCurrency();        // '$123.00'
+123.toPercentage();      // '12300.00%'
+123.toCompactString();   // '123'
+123.toOrdinal();         // '123rd'
+123.toBinary();          // '1111011'
+
+// Time Conversion
+5.toMinutes;         // Duration of 5 minutes
+2.toDays;            // Duration of 2 days
+
+// Range Operations
+5.to(10);            // [5, 6, 7, 8, 9, 10]
+10.times(() => print('Hello')); // Prints 'Hello' 10 times
+```
+
+### Boolean Extensions
+
+Streamline boolean operations:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Conversions
+true.toInt();        // 1
+false.toYesNo();     // 'No'
+true.toOnOff();      // 'On'
+
+// Conditional Execution
+isLoaded.whenTrue(() => showContent());
+isError.whenFalse(() => hideErrorMessage());
+
+// Choose between values
+isDarkMode.choose(darkTheme, lightTheme);
+
+// UI Helpers
+isActive.toColor();  // Returns Colors.green if true, Colors.red if false
+isValid.toIcon();    // Returns Icons.check if true, Icons.close if false
+```
+
+## Example
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+class UserProfile extends StatelessWidget {
+  final String name;
+  final String email;
+  final DateTime birthDate;
+  final bool isPremium;
+
+  const UserProfile({
+    required this.name,
+    required this.email,
+    required this.birthDate,
+    required this.isPremium,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: ${name.toTitleCase()}'),
+            Text('Email: ${email.isValidEmail() ? email : 'Invalid email'}'),
+            Text('Age: ${birthDate.age}'),
+            Text('Joined: ${birthDate.timeAgo()}'),
+            Text('Status: ${isPremium.toCustomString(trueValue: 'Premium', falseValue: 'Standard')}'),
+            Icon(isPremium.toIcon()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

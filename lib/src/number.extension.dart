@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:intl/intl.dart';
@@ -45,11 +46,11 @@ extension IntegerExtensions on int {
   int factorial() => this <= 1 ? 1 : this * (this - 1).factorial();
   int square() => this * this;
   int cube() => this * this * this;
-  double sqrt() => sqrt();
-  int pow(int exponent) => pow(exponent).toInt();
   int absValue() => abs();
   int roundToNearest(int value) => (this / value).round() * value;
-
+  double sqrt() => math.sqrt(toDouble());
+  double pow(num exponent) => math.pow(toDouble(), exponent).toDouble();
+  int powInt(int exponent) => math.pow(this, exponent).toInt();
   // Time-Related Extensions
   Duration get toMilliseconds => Duration(milliseconds: this);
   Duration get toSeconds => Duration(seconds: this);
@@ -99,12 +100,6 @@ extension IntegerExtensions on int {
 
   // Statistics & Probability
   double percentOf(int total) => (this / total) * 100;
-
-  // Miscellaneous
-  bool get isPerfectSquare {
-    int sqrtInt = sqrt().toInt();
-    return sqrtInt * sqrtInt == this;
-  }
 
   String reverseDigits() => toString().split('').reversed.join();
 }
