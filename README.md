@@ -1,3 +1,5 @@
+[![Stand With Palestine](https://raw.githubusercontent.com/TheBSD/StandWithPalestine/main/banner-no-action.svg)](https://thebsd.github.io/StandWithPalestine)
+
 # Dart Tool Kit
 
 A comprehensive collection of extension methods for Flutter and Dart to boost your productivity with everyday tasks.
