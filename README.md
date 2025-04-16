@@ -91,7 +91,12 @@ Enhance numeric operations:
 import 'package:dart_tool_kit/dart_tool_kit.dart';
 
 // Formatting
-123.toCurrency();        // '$123.00'
+// Usage
+1000.toCurrency(symbol: '\$', decimalDigits: 0);  // '$1,000'
+1000.toCurrency(symbol: '€', decimalDigits: 0);   // '€1,000'
+1000.toCurrency(symbol: '₹', decimalDigits: 0);   // '₹1,000'
+1000.toCurrency(symbol: '\$', decimalDigits: 2);  // '$1,000.00'
+1000.toCurrency(symbol: 'Rs.', decimalDigits: 2);  // 'Rs.1,000.00'
 123.toPercentage();      // '12300.00%'
 123.toCompactString();   // '123'
 123.toOrdinal();         // '123rd'
@@ -169,6 +174,60 @@ class UserProfile extends StatelessWidget {
     );
   }
 }
+```
+
+### List Extensions
+
+Streamline List operations:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Safe Access
+list.safeFirst;    // Returns first element or null if empty
+list.safeLast;     // Returns last element or null if empty
+list.isNotNullOrEmpty; // Returns true if list is not empty
+
+// List Utilities
+list.chunked(3);   // Splits list into chunks of 3
+list.withoutNulls(); // Removes all nulls from the list
+```
+
+### Map Extensions
+
+Streamline Map operations:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Merging Maps
+map.merge(otherMap);  // Merges another map into the current one
+
+// Transforming Keys and Values
+map.mapValues((value) => value.toString());  // Transforms values
+map.mapKeys((key) => key.toString());  // Transforms keys
+
+// Filtering Maps
+map.filter((key, value) => key == 'desiredKey');  // Filters map based on condition
+```
+
+### Iterable Extensions
+
+Streamline Iterable operations:
+
+```dart
+import 'package:dart_tool_kit/dart_tool_kit.dart';
+
+// Safe Access
+iterable.isNotNullOrEmpty; // Returns true if iterable is not empty
+
+// Grouping and Summarizing
+iterable.groupBy((element) => element.toString()); // Groups elements by key
+iterable.sum; // Returns the sum of all numeric elements
+iterable.average; // Returns the average of all numeric elements
+
+// Safe Access to First Matching Element
+iterable.firstWhereOrNull((element) => element == 'desiredValue');  // Returns first match or null
 ```
 
 ## Contributing
