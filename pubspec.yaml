@@ -1,6 +1,6 @@
 name: dart_tool_kit
 description: "A comprehensive collection of extension methods for Flutter and Dart to boost your productivity with everyday tasks."
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/syedmehtabali/dart_tool_kit
 repository: https://github.com/syedmehtabali/dart_tool_kit
 issue_tracker: https://github.com/syedmehtabali/dart_tool_kit/issues
