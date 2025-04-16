@@ -14,8 +14,11 @@ extension IntegerExtensions on int {
   bool get isZero => this == 0;
 
   // Formatting & Display
-  String toCurrency({String symbol = '\$', int decimalPlaces = 2}) =>
-      '$symbol${toStringAsFixed(decimalPlaces)}';
+  String toCurrency({String symbol = '\$', int decimalDigits = 0}) {
+    final format =
+        NumberFormat.currency(symbol: symbol, decimalDigits: decimalDigits);
+    return format.format(this);
+  }
 
   String toPercentage({int decimalPlaces = 2}) =>
       '${(this * 100).toStringAsFixed(decimalPlaces)}%';
