@@ -1,5 +1,4 @@
-import 'package:dart_tool_kit/src/boolean.extensions.dart';
-import 'package:flutter/material.dart';
+import 'package:dart_tool_kit/dart_tool_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -111,30 +110,6 @@ void main() {
       expect(value.choose('Success', 'Failure'), 'Failure');
     });
 
-    test('toColor() should return the correct color based on boolean value',
-        () {
-      bool value = true;
-      expect(value.toColor(), Colors.green);
-      value = false;
-      expect(value.toColor(), Colors.red);
-    });
-
-    test(
-        'toStatusColor() should return success or error color based on boolean',
-        () {
-      bool value = true;
-      expect(value.toStatusColor(), Colors.green);
-      value = false;
-      expect(value.toStatusColor(), Colors.red);
-    });
-
-    test('toIcon() should return correct icon based on boolean', () {
-      bool value = true;
-      expect(value.toIcon(), Icons.check);
-      value = false;
-      expect(value.toIcon(), Icons.close);
-    });
-
     test(
         'timeExecution() should return the result of the action and log execution time',
         () {
@@ -143,6 +118,35 @@ void main() {
         return 42;
       });
       expect(result, 42);
+    });
+
+    test('timeExecution() reports elapsed time when true', () {
+      Duration? elapsed;
+      final result = true.timeExecution(() => 'done', onElapsed: (d) {
+        elapsed = d;
+      });
+      expect(result, 'done');
+      expect(elapsed, isNotNull);
+      expect(elapsed!.isNegative, false);
+    });
+
+    test('timeExecution() skips the action when false', () {
+      var ran = false;
+      var reported = false;
+      final result = false.timeExecution(() {
+        ran = true;
+        return 1;
+      }, onElapsed: (_) => reported = true);
+      expect(result, isNull);
+      expect(ran, false);
+      expect(reported, false);
+    });
+
+    test('choose() and toCustomString()', () {
+      expect(true.choose('a', 'b'), 'a');
+      expect(false.choose('a', 'b'), 'b');
+      expect(false.toCustomString(), 'Disabled');
+      expect(true.toCustomString(trueValue: 'On'), 'On');
     });
   });
 

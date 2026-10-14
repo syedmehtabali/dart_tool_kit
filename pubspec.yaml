@@ -1,24 +1,31 @@
 name: dart_tool_kit
 description: "A comprehensive collection of extension methods for Flutter and Dart to boost your productivity with everyday tasks."
-version: 0.2.1
+version: 0.3.0
 homepage: https://github.com/syedmehtabali/dart_tool_kit
 repository: https://github.com/syedmehtabali/dart_tool_kit
 issue_tracker: https://github.com/syedmehtabali/dart_tool_kit/issues
+topics:
+  - extensions
+  - utils
+  - string
+  - datetime
+  - productivity
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.6.0
+  flutter: ">=3.27.0"
 
 dependencies:
   flutter:
     sdk: flutter
   crypto: ^3.0.6
-  intl: ^0.20.2
+  intl: ">=0.19.0 <0.21.0"
 
 dev_dependencies:
+  collection: ^1.19.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
 
 test:
   paths:
