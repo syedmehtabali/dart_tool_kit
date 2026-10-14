@@ -18,4 +18,8 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed .
       - run: flutter analyze
       - run: flutter test
+      - name: Show files changed by earlier steps
+        run: |
+          git status --porcelain
+          git diff --exit-code
       - run: flutter pub publish --dry-run
