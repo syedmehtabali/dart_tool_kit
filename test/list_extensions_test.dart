@@ -1,4 +1,4 @@
-import 'package:dart_tool_kit/src/list.extensions.dart';
+import 'package:dart_tool_kit/dart_tool_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -32,6 +32,29 @@ void main() {
 
     test('withoutNulls removes nulls', () {
       expect([1, null, 3].withoutNulls(), [1, 3]);
+    });
+    test('chunked edge cases', () {
+      expect(<int>[].chunked(3), isEmpty);
+      expect([1, 2].chunked(5), [
+        [1, 2]
+      ]);
+      expect([1, 2, 3, 4].chunked(2), [
+        [1, 2],
+        [3, 4]
+      ]);
+      expect(() => [1].chunked(-1), throwsArgumentError);
+    });
+
+    test('withoutNulls returns a non-nullable list', () {
+      final List<int> result = <int?>[null, 1, null, 2].withoutNulls();
+      expect(result, [1, 2]);
+      expect(<int?>[null].withoutNulls(), isEmpty);
+      expect(<String>['a'].withoutNulls(), ['a']);
+    });
+
+    test('safeFirst / safeLast on nullable element lists', () {
+      expect(<int?>[null, 1].safeFirst, isNull);
+      expect(<int?>[null, 1].safeLast, 1);
     });
   });
 }

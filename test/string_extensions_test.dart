@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_tool_kit/src/string.extension.dart';
+import 'package:dart_tool_kit/dart_tool_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -35,11 +35,6 @@ void main() {
     test('isNumeric', () {
       expect('12345'.isNumeric(), true);
       expect('12a45'.isNumeric(), false);
-    });
-
-    test('isNullOrEmpty', () {
-      expect('   '.isNullOrEmpty(), true);
-      expect('hello'.isNullOrEmpty(), false);
     });
 
     test('ensureTrailingSlash', () {
@@ -151,6 +146,130 @@ void main() {
 
     test('toPascalCase', () {
       expect('hello_world'.toPascalCase(), 'HelloWorld');
+    });
+
+    group('case conversion', () {
+      test('toSnakeCase handles spaces, separators, camel/Pascal, acronyms',
+          () {
+        expect('hello world'.toSnakeCase(), 'hello_world');
+        expect('Hello World'.toSnakeCase(), 'hello_world');
+        expect('hello-world'.toSnakeCase(), 'hello_world');
+        expect('HelloWorld'.toSnakeCase(), 'hello_world');
+        expect('  hello   __world--again  '.toSnakeCase(), 'hello_world_again');
+        expect('HTTPRequest'.toSnakeCase(), 'http_request');
+        expect('parseHTTPRequest'.toSnakeCase(), 'parse_http_request');
+        expect('userID'.toSnakeCase(), 'user_id');
+        expect('base64Encode'.toSnakeCase(), 'base64_encode');
+        expect('already_snake'.toSnakeCase(), 'already_snake');
+        expect('ÄpfelBirne'.toSnakeCase(), 'äpfel_birne');
+        expect(''.toSnakeCase(), '');
+        expect('  _- '.toSnakeCase(), '');
+      });
+
+      test('toKebabCase handles spaces, separators, camel/Pascal, acronyms',
+          () {
+        expect('hello world'.toKebabCase(), 'hello-world');
+        expect('hello_world'.toKebabCase(), 'hello-world');
+        expect('HelloWorld'.toKebabCase(), 'hello-world');
+        expect('hello--world'.toKebabCase(), 'hello-world');
+        expect('HTTPRequest'.toKebabCase(), 'http-request');
+        expect(''.toKebabCase(), '');
+      });
+
+      test('toCamelCase edge cases', () {
+        expect('hello world'.toCamelCase(), 'helloWorld');
+        expect('Hello-World'.toCamelCase(), 'helloWorld');
+        expect('helloWorld'.toCamelCase(), 'helloWorld');
+        expect('HelloWorld'.toCamelCase(), 'helloWorld');
+        expect('HTTPRequest'.toCamelCase(), 'httpRequest');
+        expect('HELLO_WORLD'.toCamelCase(), 'helloWorld');
+        expect(''.toCamelCase(), '');
+        expect('___'.toCamelCase(), '');
+      });
+
+      test('toPascalCase edge cases', () {
+        expect('hello world'.toPascalCase(), 'HelloWorld');
+        expect('helloWorld'.toPascalCase(), 'HelloWorld');
+        expect('parse_HTTP_request'.toPascalCase(), 'ParseHttpRequest');
+        expect(''.toPascalCase(), '');
+      });
+
+      test('camelToWords handles acronyms and empty strings', () {
+        expect('HTTPRequest'.camelToWords(), 'HTTP Request');
+        expect('parseHTTPRequest'.camelToWords(), 'Parse HTTP Request');
+        expect('HelloWorld'.camelToWords(), 'Hello World');
+        expect('hello'.camelToWords(), 'Hello');
+        expect(''.camelToWords(), '');
+      });
+
+      test('toTitleCase edge cases', () {
+        expect(''.toTitleCase(), '');
+        expect('hello NASA world'.toTitleCase(), 'Hello NASA World');
+        expect('a  b'.toTitleCase(), 'A  B');
+      });
+    });
+
+    test('isValidUrl accepts ports and queries', () {
+      expect('https://example.com:8080/path'.isValidUrl(), true);
+      expect('https://example.com?q=1'.isValidUrl(), true);
+      expect('example.com/#top'.isValidUrl(), true);
+      expect('https://exa mple.com'.isValidUrl(), false);
+    });
+
+    test('isNumeric rejects empty, signs and decimals', () {
+      expect(''.isNumeric(), false);
+      expect('-1'.isNumeric(), false);
+      expect('1.5'.isNumeric(), false);
+    });
+
+    test('reverse keeps surrogate pairs intact', () {
+      expect('abc😀'.reverse(), '😀cba');
+      expect(''.reverse(), '');
+      expect('a😀a'.isPalindrome(), true);
+    });
+
+    test('ellipsize edge cases', () {
+      expect('Hello'.ellipsize(5), 'Hello');
+      expect('Hello'.ellipsize(0), '...');
+      expect(() => 'Hello'.ellipsize(-1), throwsArgumentError);
+    });
+
+    test('mask edge cases', () {
+      expect('1234'.mask(), '1234');
+      expect('12345'.mask(start: 0, end: 0, maskChar: '#'), '#####');
+      expect(() => '12345'.mask(start: -1), throwsArgumentError);
+      expect(() => '12345'.mask(end: -1), throwsArgumentError);
+    });
+
+    test('toBool trims and ignores case', () {
+      expect(' TRUE '.toBool(), true);
+      expect('True'.toBool(), true);
+      expect(' 1 '.toBool(), true);
+      expect('yes'.toBool(), false);
+      expect(''.toBool(), false);
+    });
+
+    test('safeSubstring clamps out-of-range indices', () {
+      expect('hello'.safeSubstring(2), 'llo');
+      expect('hello'.safeSubstring(10), '');
+      expect('hello'.safeSubstring(-3, 2), 'he');
+      expect('hello'.safeSubstring(1, 99), 'ello');
+      expect('hello'.safeSubstring(3, 1), '');
+      expect(''.safeSubstring(0, 1), '');
+    });
+
+    test('countOccurrences edge cases', () {
+      expect('hello'.countOccurrences(''), 0);
+      expect('aaaa'.countOccurrences('aa'), 2);
+      expect('a.b.c'.countOccurrences('.'), 2);
+    });
+
+    test('getInitials handles extra whitespace and emoji', () {
+      expect('  john   doe '.getInitials(), 'JD');
+      expect('john\tdoe'.getInitials(), 'JD');
+      expect('😀 smile'.getInitials(), '😀S');
+      expect(''.getInitials(), '');
+      expect('   '.getInitials(), '');
     });
 
     test('toSHA256', () {
